@@ -1,0 +1,25 @@
+
+- name: 'Check if Go is already installed and if so, register its version'
+  shell: "{{ go_default_install_parentdir }}/go/bin/go version"
+  ignore_errors: true
+  register: go_installed_version
+  changed_when: false
+
+- name: show version
+  debug:
+    msg: "go version: {{ go_version }} / go installed version: '{{ go_installed_version.stdout }}'"
+
+- name: remove old go folder
+  file:
+    path: "{{ go_install_path }}"
+    state: absent
+  become: yes
+  when: go_version not in go_installed_version.stdout
+
+- name: install go
+  unarchive:
+    src: https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz
+    dest: "{{ go_default_install_parentdir }}"
+    remote_src: yes
+  become: yes
+  when: go_version not in go_installed_version.stdout

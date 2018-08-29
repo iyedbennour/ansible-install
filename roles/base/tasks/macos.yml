@@ -1,0 +1,14 @@
+---
+
+- name: running darwin task
+  debug:
+    msg: running darwin tasks
+
+- name: 'Update homebrew'
+  homebrew:
+    update_homebrew: yes
+
+- name: 'Install git'
+  homebrew:
+    name: git
+    state: latest

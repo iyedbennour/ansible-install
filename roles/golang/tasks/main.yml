@@ -1,0 +1,7 @@
+---
+
+- import_tasks: macos.yml
+  when: ansible_os_family|lower == 'darwin'
+
+- import_tasks: ubuntu.yml
+  when: ansible_os_family|lower == 'debian'

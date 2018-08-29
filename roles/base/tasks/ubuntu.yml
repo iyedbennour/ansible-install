@@ -1,0 +1,72 @@
+---
+
+
+- name: running ubuntu tasks
+  debug:
+    msg: running ubuntu tasks
+
+- name: 'Install git'
+  apt:
+    name: git
+    update_cache: yes
+  become: yes
+
+- name: 'Install curl'
+  apt:
+    name: curl
+    update_cache: yes
+  become: yes
+
+- name: 'Install openvpn'
+  apt:
+    name: openvpn
+    update_cache: yes
+  become: yes
+
+- name: 'Add google apt signing key'
+  apt_key:
+    url: 'https://dl.google.com/linux/linux_signing_key.pub'
+    state: present
+  become: yes
+
+- name: 'Add chrome deb repo'
+  apt_repository:
+    repo: 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main'
+    state: present
+  become: yes
+
+- name: 'Install google chrome stable'
+  apt:
+    name: google-chrome-stable
+    update_cache: yes
+  become: yes
+  notify:
+    - 'Remove chrome deb repo'
+
+- name: 'Add docker apt signing key'
+  apt_key:
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    state: present
+  become: yes
+
+- name: 'Add docker deb repo'
+  apt_repository:
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'
+    state: present
+  become: yes
+
+- name: 'Install docker-ce'
+  apt:
+    name: docker-ce
+    update_cache: yes
+  become: yes
+  notify:
+    - 'Add user to docker group'
+    - 'Restart docker service'
+
+- name: 'Install docker-compose'
+  get_url:
+      url: "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ ansible_system }}-{{ ansible_machine }}"
+      dest: /usr/local/bin/docker-compose
+      mode: '755'
+  become: yes
