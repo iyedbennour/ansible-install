@@ -2,7 +2,16 @@
 
 An ansible playbook to install basic tools on a development machine.
 
-It installs everything listed in the roles base, golang and vscode. Comment roles/tasks to disable them.
+It installs everything listed in the roles **base**, **golang** and **vscode**. Comment roles/tasks to disable them.
+
+the role **base** installs:
+- docker-ce
+- docker-compose (v 1.22.0)
+- git
+- curl
+- openvpn
+- google chrome
+ 
 
 Tested on ubuntu 18.04 (but works also on macOS).
 
