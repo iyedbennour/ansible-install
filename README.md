@@ -6,7 +6,7 @@ It installs everything listed in the roles **base**, **golang** and **vscode**. 
 
 the role **base** installs:
 - docker-ce
-- docker-compose (v 1.22.0)
+- docker-compose
 - git
 - curl
 - openvpn
